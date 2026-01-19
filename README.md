@@ -68,110 +68,87 @@ Optional:
 pip install PyQt6 pyvis
 ```
 Or with PySide6:
-
-bash
-Copy code
+```bash
 pip install PySide6 pyvis
-Running the Tool
+```
+### Running the Tool
 GUI Mode (recommended)
+
 Scan the current directory:
-
-bash
-Copy code
+```bash
 python scanner_gui_v0.7.py
+```
 Scan a specific project:
-
-bash
-Copy code
+```bash
 python scanner_gui_v0.7.py /path/to/your/project
-CLI Mode (quick analysis)
-bash
-Copy code
+```
+### CLI Mode (quick analysis)
+```bash
 python scanner_gui_v0.7.py /path/to/project
+```
 Example output:
-
-text
-Copy code
+```text
 Scanned 47 modules
 
 Circular Dependencies:
 Cycle 1: myapp.core.models → myapp.api.views → myapp.core.models
-Keyboard Shortcuts
-text
+```
+
+## Keyboard Shortcuts
+```text
 Copy code
 Ctrl+R — Rescan project
 Ctrl+E — Export dependency data (JSON)
 Ctrl+Q — Quit
-How It Works (Technical Summary)
-Recursively walks project .py files
+```
 
-Parses Python AST to extract:
+## How It Works (Technical Summary)
 
-import x
+- Recursively walks project .py files
+- Parses Python AST to extract:
+- import x
+- from x import y
+- Resolves relative imports
+- Builds a directed dependency graph
+- Detects cycles via strongly connected components
+- Generates an interactive HTML graph
+- Displays results via Qt tree view and embedded web view
 
-from x import y
-
-Resolves relative imports
-
-Builds a directed dependency graph
-
-Detects cycles via strongly connected components
-
-Generates an interactive HTML graph
-
-Displays results via Qt tree view and embedded web view
-
-Project Structure
-text
-Copy code
+## Project Structure
+```text
 .
 ├── scanner_gui_v0.7.py   # GUI + CLI entry point
 ├── graph.html            # Generated on execution
 ├── lib/                  # Local vis.js assets
 └── README.md
-Known Limitations
-Dynamic imports are not resolved (__import__, importlib)
+```
 
-External / installed packages are ignored
+## Known Limitations
 
-Very large projects may produce dense graphs
+- Dynamic imports are not resolved (__import__, importlib)
+- External / installed packages are ignored
+- Very large projects may produce dense graphs
+- Graph is regenerated on each scan
 
-Graph is regenerated on each scan
+## Contribution Policy
 
-Contribution Policy
 Feedback, issue reports, and suggestions are welcome.
 
 You may submit:
 
-Bug reports
+- Bug reports
+- Design suggestions
+- Pull requests for review
 
-Design suggestions
+**However:**
 
-Pull requests for review
-
-However:
-
-Submitted contributions do not grant any license or ownership rights
-
-The author retains full discretion over acceptance and future use
-
-Contributors do not receive redistribution or reuse rights
+- Submitted contributions do not grant any license or ownership rights
+- The author retains full discretion over acceptance and future use
+- Contributors do not receive redistribution or reuse rights
 
 ## License
+
 This project is not open-source.
 
-It is licensed under a private evaluation-only license.
+It is licensed under a private evaluation-only license.</br>
 See LICENSE.txt for full terms.
-
-```yaml
-Copy code
-
----
-
-### Status
-✔ Formatting preserved  
-✔ GitHub-safe  
-✔ License-tight  
-✔ No accidental open-source language  
-
-When ready, send the **next README.md** and I will apply the same controlled rewrite consistently across all proje
