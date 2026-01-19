@@ -1,3 +1,8 @@
+⚠️ LICENSE NOTICE
+This repository is source-available for evaluation and showcase purposes only.
+No reuse, redistribution, or commercial use is permitted without explicit permission.
+See LICENSE.txt for full terms.
+
 # Enhanced Python Import Cycle Scanner & Visualizer
 
 **A modern desktop tool to detect circular imports, visualize module dependencies, and understand your Python project's structure.**
@@ -154,4 +159,4 @@ Contributions are very welcome!
 5. Open a Pull Request
 
 ## License
-Distributed under the MIT License. See LICENSE for more information.
+See LICENSE for more information.
