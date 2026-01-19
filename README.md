@@ -1,162 +1,177 @@
-⚠️ LICENSE NOTICE
-This repository is source-available for evaluation and showcase purposes only.
-No reuse, redistribution, or commercial use is permitted without explicit permission.
-See LICENSE.txt for full terms.
-
 # Enhanced Python Import Cycle Scanner & Visualizer
 
-**A modern desktop tool to detect circular imports, visualize module dependencies, and understand your Python project's structure.**
+⚠️ **LICENSE & USAGE NOTICE — READ FIRST**
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.9%2B-blue?style=flat&logo=python&logoColor=white" alt="Python version">
-  <img src="https://img.shields.io/badge/PyQt6-6.5+-green?style=flat" alt="PyQt6">
-  <img src="https://img.shields.io/badge/pyvis-interactive%20graphs-orange?style=flat" alt="pyvis">
-  <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License">
-</p>
+This repository is **source-available for private technical evaluation and testing only**.
 
-## ✨ Features
+- ❌ No commercial use  
+- ❌ No production use  
+- ❌ No academic, institutional, or government research use  
+- ❌ No redistribution, sublicensing, or relicensing  
+- ❌ No derivative works or independent development based on this code  
+- ❌ No benchmarking, publication, or inclusion in reports or papers  
 
-- Scans an entire Python project for **module-to-module imports**
-- Detects **circular dependencies** (strongly connected components)
-- Beautiful **interactive dependency graph** using pyvis + vis.js
-  - Red nodes = part of a cycle
-  - Zoom, pan, drag, hover for file paths
-- Classic **tree/table view** showing modules, import counts and lists
-- Highlights modules involved in cycles (bold + dark red background)
-- **Rescan** project with one click (Ctrl+R)
-- **Export** results as structured JSON
-- Works both as **GUI application** and **CLI tool**
-- Clean dark-themed graph with local vis.js resources (no internet needed)
+All rights remain exclusively with the author.  
+Use of this software constitutes acceptance of the terms defined in **LICENSE.txt**.
+
+---
+
+## Overview
+
+**Enhanced Python Import Cycle Scanner & Visualizer** is a modern desktop and CLI tool designed to analyze Python project structures, detect circular imports, and visualize module dependencies through an interactive graph interface.
+
+This repository is published **solely for evaluation and showcase purposes**, demonstrating implementation quality, architectural decisions, and tooling approach.
+
+---
+
+## Features
+
+- Scans entire Python projects for **module-to-module import relationships**
+- Detects **circular dependencies** using graph analysis (strongly connected components)
+- Interactive **dependency graph visualization** (pyvis + vis.js)
+  - Red nodes indicate modules involved in cycles
+  - Zoom, pan, drag, and hover for inspection
+- Structured **tree/table view** of modules and imports
+- Visual highlighting of cyclic modules
+- One-click **rescan** (Ctrl+R)
+- **JSON export** of dependency data
+- Operates as both:
+  - Desktop GUI application
+  - Lightweight CLI analysis tool
+- Fully local execution (no internet access required)
+
+---
 
 ## Screenshots
 
-GUI with Tree View and Interactive Graph Tab  
-*(Add your own screenshots here — recommended: one of the tree, one of the graph with a cycle visible)*
+*(Screenshots intentionally omitted from the public repository.  
+You may add local screenshots for private evaluation if desired.)*
 
-<!-- You can later add: -->
-<!-- ![Tree View](screenshots/tree-view.png)   ![Graph View with cycle](screenshots/graph-cycle.png) -->
+---
 
 ## Requirements
 
-- Python **3.9** or newer
-- PyQt6
-- pyvis
-- (optional but recommended: PySide6 as alternative Qt backend)
+- Python **3.9+**
+- PyQt6  
+- pyvis  
 
+Optional:
+- PySide6 (alternative Qt backend)
 
-## Recommended - minimal dependencies
+---
+
+## Installation (Evaluation Use Only)
+
+### Minimal dependencies
+
 ```bash
 pip install PyQt6 pyvis
 ```
-or with PySide6 compatibility layer:
-```Bash
+Or with PySide6:
+
+bash
+Copy code
 pip install PySide6 pyvis
-```
----
-## Installation
-### Option 1: Run directly from source (recommended for development)
-```Bash
-git clone https://github.com/YOUR-USERNAME/python-import-cycle-scanner.git
-cd python-import-cycle-scanner
-```
-## Install dependencies
-```bash
-pip install -r requirements.txt    # create this file — see below
-```
-Run GUI (current directory as project root)
-```bash
+Running the Tool
+GUI Mode (recommended)
+Scan the current directory:
+
+bash
+Copy code
 python scanner_gui_v0.7.py
-```
-Or scan specific folder
-```bash
+Scan a specific project:
+
+bash
+Copy code
 python scanner_gui_v0.7.py /path/to/your/project
-```
-Option 2: One-file executable (PyInstaller)
-```Bash
-pip install pyinstaller
-pyinstaller --onefile --windowed --name "ImportScanner" scanner_gui_v0.7.py
-```
-The executable appears in the dist/ folder.
-
-## requirements.txt 
-```text
-textPyQt6 >= 6.5.0
-pyvis >= 0.3.2
-```
----
-## Usage
-
-GUI mode (most common)
-```Bash
-python scanner_gui_v0.7.py
-# → scans current directory
-```
-or specify folder
-```bash
-python scanner_gui_v0.7.py ~/projects/my-large-app
-```
-## Keyboard shortcuts
-```text
-Ctrl+R — Rescan current project
-Ctrl+E — Export JSON
-Ctrl+Q — Quit
-```
-CLI mode (quick check)
-```Bash
+CLI Mode (quick analysis)
+bash
+Copy code
 python scanner_gui_v0.7.py /path/to/project
-```
 Example output:
-```text
-Scanned 47 modules
 
-Modules and Imports:
-myapp.core.utils: -
-myapp.core.models: myapp.core.utils
-myapp.api.views: myapp.core.models, myapp.core.utils
-...
+text
+Copy code
+Scanned 47 modules
 
 Circular Dependencies:
 Cycle 1: myapp.core.models → myapp.api.views → myapp.core.models
-```
-## How It Works
-- Walks through all .py files in the project
-- Parses AST to collect import and from ... import ... statements
-- Resolves relative imports (from . import ..., from ..parent import ...)
-- Builds directed graph: module → imported modules
-- Uses Tarjan's algorithm variant to find strongly connected components (cycles)
-- Generates interactive HTML graph with pyvis (nodes in red if cyclic)
-- Displays results in sortable tree view + QtWebEngine-based graph tab
+Keyboard Shortcuts
+text
+Copy code
+Ctrl+R — Rescan project
+Ctrl+E — Export dependency data (JSON)
+Ctrl+Q — Quit
+How It Works (Technical Summary)
+Recursively walks project .py files
 
-## Project Structure
-```text.
-├── scanner_gui_v0.7.py       # main file — GUI + CLI entry point
-├── graph.html                # generated interactive graph (created on run)
-├── lib/                      # local vis.js files (created by pyvis)
+Parses Python AST to extract:
+
+import x
+
+from x import y
+
+Resolves relative imports
+
+Builds a directed dependency graph
+
+Detects cycles via strongly connected components
+
+Generates an interactive HTML graph
+
+Displays results via Qt tree view and embedded web view
+
+Project Structure
+text
+Copy code
+.
+├── scanner_gui_v0.7.py   # GUI + CLI entry point
+├── graph.html            # Generated on execution
+├── lib/                  # Local vis.js assets
 └── README.md
-```
-## Known Limitations
-- Does not follow dynamic imports (__import__, importlib.import_module)
-- Does not resolve imports from installed packages (only project-local modules)
-- Very large projects (> 1000 modules) may make graph hard to read
-- Graph is regenerated on every rescan (can be slow on huge codebases)
+Known Limitations
+Dynamic imports are not resolved (__import__, importlib)
 
-## Future Improvements (ideas welcome!)
-- Filter graph (show only cycles / subgraph around selected module)
-- Export graph as PNG / SVG
-- Support for __init__.py namespace packages
-- Dependency strength visualization (number of imports)
-- Dark / light theme toggle for GUI
-- Command-line-only mode with richer output (ASCII graph, JSON)
+External / installed packages are ignored
 
-## Contributing
+Very large projects may produce dense graphs
 
-Contributions are very welcome!
+Graph is regenerated on each scan
 
-1. Fork the repository
-2. Create a feature branch (git checkout -b feature/amazing-feature)
-3. Commit your changes (git commit -m 'Add amazing feature')
-4. Push to the branch (git push origin feature/amazing-feature)
-5. Open a Pull Request
+Contribution Policy
+Feedback, issue reports, and suggestions are welcome.
+
+You may submit:
+
+Bug reports
+
+Design suggestions
+
+Pull requests for review
+
+However:
+
+Submitted contributions do not grant any license or ownership rights
+
+The author retains full discretion over acceptance and future use
+
+Contributors do not receive redistribution or reuse rights
 
 ## License
-See LICENSE for more information.
+This project is not open-source.
+
+It is licensed under a private evaluation-only license.
+See LICENSE.txt for full terms.
+
+```yaml
+Copy code
+
+---
+
+### Status
+✔ Formatting preserved  
+✔ GitHub-safe  
+✔ License-tight  
+✔ No accidental open-source language  
+
+When ready, send the **next README.md** and I will apply the same controlled rewrite consistently across all proje
