@@ -1,4 +1,4 @@
-# Enhanced Python Import Cycle Scanner & Visualizer
+# Python Import Scanner & Dependency Visualizer
 
 ⚠️ **LICENSE & USAGE NOTICE — READ FIRST**
 
@@ -16,119 +16,79 @@ Use of this software constitutes acceptance of the terms defined in **LICENSE.tx
 
 ---
 
-## Overview
+A powerful desktop utility built with **PyQt6** and **Pyvis** to scan, analyze, and visualize the internal and external dependencies of any Python project. This tool helps developers identify architectural smells, locate circular dependencies, and understand the mapping of large codebases.
 
-**Enhanced Python Import Cycle Scanner & Visualizer** is a modern desktop and CLI tool designed to analyze Python project structures, detect circular imports, and visualize module dependencies through an interactive graph interface.
+## 🚀 Features
 
-This repository is published **solely for evaluation and showcase purposes**, demonstrating implementation quality, architectural decisions, and tooling approach.
-
----
-
-## Features
-
-- Scans entire Python projects for **module-to-module import relationships**
-- Detects **circular dependencies** using graph analysis (strongly connected components)
-- Interactive **dependency graph visualization** (pyvis + vis.js)
-  - Red nodes indicate modules involved in cycles
-  - Zoom, pan, drag, and hover for inspection
-- Structured **tree/table view** of modules and imports
-- Visual highlighting of cyclic modules
-- One-click **rescan** (Ctrl+R)
-- **JSON export** of dependency data
-- Operates as both:
-  - Desktop GUI application
-  - Lightweight CLI analysis tool
-- Fully local execution (no internet access required)
+- Automated Project Scanning: Recursively walks through project directories, automatically ignoring virtual environments (venv) to focus on your source code.
+- Circular Dependency Detection: Implements Tarjan’s Algorithm to find strongly connected components (cycles) and highlights them in red.
+- Interactive Dependency Graph: A zoomable, draggable HTML-based graph powered by pyvis.
+- Static Graph Export: Generates high-quality PNG or SVG diagrams using Graphviz.
+- Internal vs. External Mapping: Distinguishes between your project's modules (internal) and third-party libraries (external).
+- Detailed Tree View: A searchable list of all modules, their file paths, and the number of imports they contain.
+- Data Export: Export your dependency analysis to JSON for further data processing.
 
 ---
 
-## Screenshots
+## 🛠️ Technology Stack
 
-*(Screenshots intentionally omitted from the public repository.  
-You may add local screenshots for private evaluation if desired.)*
-
----
-
-## Requirements
-
-- Python **3.9+**
-- PyQt6  
-- pyvis  
-
-Optional:
-- PySide6 (alternative Qt backend)
+- GUI Framework: PyQt6 (with QtWebEngine for interactive graphs)
+- Graph Engine: pyvis (Interactive) and Graphviz (Static)
+- Analysis: ast (Abstract Syntax Trees) for parsing Python files without executing them.
+- Algorithm: Tarjan's Strongly Connected Components for cycle detection.
 
 ---
 
-## Installation (Evaluation Use Only)
+## 📋 Prerequisites
 
-### Minimal dependencies
+Before running the scanner, ensure you have Graphviz installed on your system if you wish to generate static PNG/SVG graphs.
 
-```bash
-pip install PyQt6 pyvis
+- Windows: choco install graphviz
+- macOS: brew install graphviz
+- Linux: sudo apt-get install graphviz
+
+**download for windows:**</br> 
+32bit - https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/14.1.0/windows_10_cmake_Release_graphviz-install-14.1.0-win32.exe</br> 
+64bit - https://gitlab.com/api/v4/projects/4207231/packages/generic/graphviz-releases/14.1.0/windows_10_cmake_Release_graphviz-install-14.1.0-win64.exe
+
+---
+
+## ⚙️ Installation
+Clone the repository:
+
+```Bash
+git clone https://github.com/yourusername/python-import-scanner.git
+cd python-import-scanner
 ```
-Or with PySide6:
-```bash
-pip install PySide6 pyvis
+Install Python dependencies:
+```Bash
+pip install PyQt6 PyQt6-WebEngine pyvis
 ```
-### Running the Tool
-GUI Mode (recommended)
+---
 
-Scan the current directory:
-```bash
-python scanner_gui_v0.7.py
+## 📖 How to Use
+
+1. Run the script:
+```Bash
+python scanner.py
 ```
-Scan a specific project:
-```bash
-python scanner_gui_v0.7.py /path/to/your/project
-```
-### CLI Mode (quick analysis)
-```bash
-python scanner_gui_v0.7.py /path/to/project
-```
-Example output:
-```text
-Scanned 47 modules
+2. Select Project: Upon launch, the app will prompt you to select the root folder of the Python project you want to analyze.
+3. Analyze the Tree: Use the "Import Tree" tab to see a breakdown of modules. Modules highlighted in red are part of a circular dependency.
+4. Explore the Graph:
+    - Switch to the Interactive Graph tab to move nodes around and see how modules link.
+    - Use the File menu to toggle "Show External Dependencies" if you want to see your connections to third-party libraries.
+5. Export: Go to File > Export to save your graph as an Image, HTML file, or JSON data.
 
-Circular Dependencies:
-Cycle 1: myapp.core.models → myapp.api.views → myapp.core.models
-```
+---
 
-## Keyboard Shortcuts
-```text
-Copy code
-Ctrl+R — Rescan project
-Ctrl+E — Export dependency data (JSON)
-Ctrl+Q — Quit
-```
+## 📂 Project Structure
 
-## How It Works (Technical Summary)
+- ImportScanner: The core logic class that parses files and builds the dependency map.
+- ImportTreeViewer: The main GUI window handling user interactions and tab management.
+- to_fqn: Utility to convert file paths into Python's dot-notation (e.g., app.models.user).
+- strongly_connected_components: The logic used to detect import loops.
 
-- Recursively walks project .py files
-- Parses Python AST to extract:
-- import x
-- from x import y
-- Resolves relative imports
-- Builds a directed dependency graph
-- Detects cycles via strongly connected components
-- Generates an interactive HTML graph
-- Displays results via Qt tree view and embedded web view
-
-## Project Structure
-```text
-.
-├── scanner_gui_v0.7.py   # GUI + CLI entry point
-├── graph.html            # Generated on execution
-├── lib/                  # Local vis.js assets
-└── README.md
-```
-
-## Known Limitations
-
-- Dynamic imports are not resolved (__import__, importlib)
-- External / installed packages are ignored
-- Very large projects may produce dense graphs
-- Graph is regenerated on each scan
+---
 
 ## Contribution Policy
 
